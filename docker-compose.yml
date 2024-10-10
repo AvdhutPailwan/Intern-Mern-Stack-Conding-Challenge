@@ -1,0 +1,14 @@
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - node-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: USER
+      MONGO_INITDB_ROOT_PASSWORD: User_9696
+
+networks:
+  node-network:
+    driver: bridge
