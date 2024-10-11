@@ -27,7 +27,6 @@ function StatisticsCard({initialData}:StatisticsCardProps) {
     <Card>
       <CardHeader>
         <CardTitle>Transaction Statistics</CardTitle>
-        <CardDescription>{selectedMonth} Month&apos;s Sale Summary</CardDescription>
         <DropdownMonths selectedMonth={selectedMonth} handleMonthChange={handleMonthChange}/>
       </CardHeader>
       <CardContent>
@@ -40,7 +39,6 @@ function StatisticsCard({initialData}:StatisticsCardProps) {
         <p>Total Number of Items Not Sold : { data.totalNumberOfItemsNotSold }</p>
       </CardContent>
     </Card>
-
   )
 }
 
