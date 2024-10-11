@@ -4,6 +4,7 @@ import dbConnect from "@/lib/mongodb";
 import {
   CustomResponse,
   TransactionBarChartDataResponse,
+  TransactionPieChartDataResponse,
   TransactionStatisticsDataResponse,
   TransactionTableDataResponse,
 } from "@/lib/interfaces";
@@ -186,6 +187,50 @@ export async function getTransactionDataForBarChartOfTheSelectedMonth(selectedMo
     const response: CustomResponse = {
       status: "ERR",
       message: `Error while fetching transaction details for bar chart\n${error.message}`,
+    };
+    return response;
+  }
+}
+export async function getTransactionDataForPieChartOfTheSelectedMonth(selectedMonth:string = "Mar"){
+  await dbConnect();
+  const monthSelected = MapMonthNameToNumber(selectedMonth);
+  try {
+    const transactions:TransactionPieChartDataResponse[] = await TransactionModel.aggregate([
+      {
+        $project: {
+          _id: 0,
+          month: { $month: "$dateOfSale" },
+          category: 1,
+        },
+      },
+      {
+        $match: {
+          month: monthSelected,
+        },
+      },
+      {
+        $group: {
+          _id: "$category",
+          count: {$count: {}}
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          category: "$_id",
+          count: 1 
+        }
+      }
+    ])
+    const response:CustomResponse = {
+      status: "OK",
+      data: transactions
+    }
+    return response;
+  } catch (error) {
+    const response: CustomResponse = {
+      status: "ERR",
+      message: `Error while fetching transaction details for pie chart\n${error.message}`,
     };
     return response;
   }
