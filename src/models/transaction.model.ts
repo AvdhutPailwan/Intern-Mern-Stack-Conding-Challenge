@@ -2,7 +2,6 @@ import mongoose, {
   Document,
   Model,
   Schema,
-  // FlattenMaps,
 } from "mongoose";
 
 export interface Transaction extends Document {
@@ -13,7 +12,7 @@ export interface Transaction extends Document {
   category: string;
   image: string;
   sold: boolean;
-  dateOfSale: string;
+  dateOfSale: Date;
   _id: string;
 }
 
@@ -52,7 +51,7 @@ const transactionSchema = new Schema<Transaction>({
     required: true,
   },
   dateOfSale: {
-    type: String,
+    type: Date,
     required: true,
   },
 });
