@@ -16,17 +16,17 @@ function MapMonthNameToNumber(month: string) {
 }
 export async function getTransactionsOfTheSelectedMonthForTable(
   selectedMonth: string = "Mar",
-  pageNumber: number = 1,
-  perPageTransactions: number = 10,
+  // pageNumber: number = 1,
+  // perPageTransactions: number = 10,
   search: string = ""
 ) {
-  if (perPageTransactions < 1 || perPageTransactions < 1) {
-    const response: CustomResponse = {
-      status: "ERR",
-      message: `Invalid Page Number or Per Page Transaction!`,
-    };
-    return response;
-  }
+  // if (perPageTransactions < 1 || perPageTransactions < 1) {
+  //   const response: CustomResponse = {
+  //     status: "ERR",
+  //     message: `Invalid Page Number or Per Page Transaction!`,
+  //   };
+  //   return response;
+  // }
   await dbConnect();
   const monthSelected = MapMonthNameToNumber(selectedMonth);
   try {
@@ -62,15 +62,27 @@ export async function getTransactionsOfTheSelectedMonthForTable(
           ...searchQuery,
         },
       },
+      {
+        $project: {
+          id: 1,
+          title: 1,
+          price: 1,
+          description: 1,
+          category: 1,
+          image: 1,
+          sold: 1,
+          dateOfSale: 1
+        }
+      }
     ])
-      .skip((pageNumber - 1) * perPageTransactions)
-      .limit(perPageTransactions);
+      // .skip((pageNumber - 1) * perPageTransactions)
+      // .limit(perPageTransactions);
 
     const res: TransactionTableDataResponse = {
       transactions: transactionsOfTheSelectedMonth,
       countOfTransactions: transactionsOfTheSelectedMonth.length,
-      pageNumber,
-      perPageTransactions,
+      // pageNumber,
+      // perPageTransactions,
     };
 
     const response: CustomResponse = {
