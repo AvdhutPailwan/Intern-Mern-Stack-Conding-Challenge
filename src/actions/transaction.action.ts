@@ -256,15 +256,15 @@ export async function getTransactionDataForPieChartOfTheSelectedMonth(
 
 export async function getAllRoutesDataCombined(
   selectedMonth: string = "Mar",
-  pageNumber: number = 1,
-  perPageTransactions: number = 10,
+  // pageNumber: number = 1,
+  // perPageTransactions: number = 10,
   search: string = ""
 ) {
   const responseFromTable = (
     await getTransactionsOfTheSelectedMonthForTable(
       selectedMonth,
-      pageNumber,
-      perPageTransactions,
+      // pageNumber,
+      // perPageTransactions,
       search
     )
   ).data;

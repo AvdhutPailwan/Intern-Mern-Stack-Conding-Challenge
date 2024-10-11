@@ -7,8 +7,8 @@ export interface TransactionBarChartDataResponse {
 export interface TransactionTableDataResponse {
   transactions: Transaction[];
   countOfTransactions: number;
-  pageNumber: number;
-  perPageTransactions: number;
+  // pageNumber: number;
+  // perPageTransactions: number;
 }
 export interface TransactionPieChartDataResponse {
   category: string;

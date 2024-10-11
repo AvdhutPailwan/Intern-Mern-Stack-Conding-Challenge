@@ -26,7 +26,8 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[],
-  getTransactionsOfTheSelectedMonthForTable: any
+  selectedMonth: string,
+  handleMonthChange: (e:string) => void
 }
 
 import { Button } from "@/components/ui/button"
@@ -42,23 +43,16 @@ import { CardTitle } from "../ui/card";
 export function DataTable<TData, TValue>({
   columns,
   data,
-  getTransactionsOfTheSelectedMonthForTable
+  selectedMonth,
+  handleMonthChange
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [filtering, setFiltering] = React.useState<any>("")
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [selectedMonth, setSelectedMonth] = React.useState<string>("Mar");
-  const [tableData, setTableData] = React.useState<any>(data);
 
-  async function handleMonthChange(e: any) {
-    console.log(e);
-    setSelectedMonth(e);
-    const response = await getTransactionsOfTheSelectedMonthForTable(e);
-    setTableData(response.data.transactions);
-  }
   const table = useReactTable({
-    data: tableData,
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -79,7 +73,7 @@ export function DataTable<TData, TValue>({
   return (
     <>
       <div className="rounded-md border">
-        <CardTitle className="p-6">Transaction Table</CardTitle>
+        <CardTitle className="px-5 mt-5">Transaction Table</CardTitle>
         <div className="flex items-center py-4 px-5">
           <Input
             placeholder="Filter Category"
