@@ -1,4 +1,4 @@
-import { getTransactionsOfTheSelectedMonthForTable, getTransactionStatisticsOfTheSelectedMonth } from "@/actions/transaction.action";
+import { getTransactionsOfTheSelectedMonthForTable, getTransactionStatisticsOfTheSelectedMonth, getTransactionDataForBarChartOfTheSelectedMonth } from "@/actions/transaction.action";
 
 
 export default async function Home() {

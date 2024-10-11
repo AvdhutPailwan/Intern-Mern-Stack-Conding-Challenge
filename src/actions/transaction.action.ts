@@ -3,6 +3,7 @@ import TransactionModel from "@/models/transaction.model";
 import dbConnect from "@/lib/mongodb";
 import {
   CustomResponse,
+  TransactionBarChartDataResponse,
   TransactionStatisticsDataResponse,
   TransactionTableDataResponse,
 } from "@/lib/interfaces";
@@ -128,6 +129,63 @@ export async function getTransactionStatisticsOfTheSelectedMonth(
     const response: CustomResponse = {
       status: "ERR",
       message: `Error while fetching transaction statistics\n${error.message}`,
+    };
+    return response;
+  }
+}
+
+export async function getTransactionDataForBarChartOfTheSelectedMonth(selectedMonth:string = "Mar") {
+  await dbConnect();
+  const monthSelected = MapMonthNameToNumber(selectedMonth);
+  const priceRanges = [
+    { range: '0-100', min: 0, max: 100 },
+    { range: '101-200', min: 101, max: 200 },
+    { range: '201-300', min: 201, max: 300 },
+    { range: '301-400', min: 301, max: 400 },
+    { range: '401-500', min: 401, max: 500 },
+    { range: '501-600', min: 501, max: 600 },
+    { range: '601-700', min: 601, max: 700 },
+    { range: '701-800', min: 701, max: 800 },
+    { range: '801-900', min: 801, max: 900 },
+    { range: '901-above', min: 901, max: Infinity },
+  ];
+  try {
+    const rangeCounts:TransactionBarChartDataResponse[] = priceRanges.map(range => ({
+      range: range.range,
+      count: 0
+    }));
+    const transactions = await TransactionModel.aggregate([
+      {
+        $project: {
+          _id: 0,
+          month: { $month: "$dateOfSale" },
+          price: 1,
+        },
+      },
+      {
+        $match: {
+          month: monthSelected,
+        },
+      },
+    ]);
+    console.log(transactions);
+    transactions.forEach(transaction => {
+      const price = transaction.price;
+      priceRanges.forEach((range, index) => {
+        if(price>=range.min && price<=range.max) {
+          rangeCounts[index].count++;
+        }
+      });
+    });
+    const response: CustomResponse = {
+      status: "OK",
+      data: rangeCounts
+    }
+    return response;
+  } catch (error) {
+    const response: CustomResponse = {
+      status: "ERR",
+      message: `Error while fetching transaction details for bar chart\n${error.message}`,
     };
     return response;
   }
