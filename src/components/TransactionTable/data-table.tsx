@@ -26,7 +26,7 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[],
-  getTransactionsOfTheSelectedMonthForTable:any
+  getTransactionsOfTheSelectedMonthForTable: any
 }
 
 import { Button } from "@/components/ui/button"
@@ -38,6 +38,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import DropdownMonths from "../DropdownMonths/DropdownMonths"
+import { CardTitle } from "../ui/card";
 export function DataTable<TData, TValue>({
   columns,
   data,
@@ -50,7 +51,7 @@ export function DataTable<TData, TValue>({
   const [selectedMonth, setSelectedMonth] = React.useState<string>("Mar");
   const [tableData, setTableData] = React.useState<any>(data);
 
-  async function handleMonthChange(e:any){
+  async function handleMonthChange(e: any) {
     console.log(e);
     setSelectedMonth(e);
     const response = await getTransactionsOfTheSelectedMonthForTable(e);
@@ -78,6 +79,7 @@ export function DataTable<TData, TValue>({
   return (
     <>
       <div className="rounded-md border">
+        <CardTitle className="p-6">Transaction Table</CardTitle>
         <div className="flex items-center py-4 px-5">
           <Input
             placeholder="Filter Category"
@@ -88,7 +90,7 @@ export function DataTable<TData, TValue>({
             className="max-w-sm"
           />
           <div className="ml-3">
-          <DropdownMonths selectedMonth={selectedMonth} handleMonthChange={handleMonthChange} />
+            <DropdownMonths selectedMonth={selectedMonth} handleMonthChange={handleMonthChange} />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

@@ -1,5 +1,6 @@
 import { getTransactionsOfTheSelectedMonthForTable, getTransactionStatisticsOfTheSelectedMonth, getTransactionDataForBarChartOfTheSelectedMonth, getTransactionDataForPieChartOfTheSelectedMonth, getAllRoutesDataCombined } from "@/actions/transaction.action";
 import Header from "@/components/Header/Header";
+import TransactionStatistics from "@/components/TransactionsStatistics/TransactionStatistics";
 import TransactionTable from "@/components/TransactionTable/TransactionTable";
 
 
@@ -9,7 +10,7 @@ export default async function Home() {
       <div className="grid grid-cols-12">
         <div className="col-start-3 col-span-8"><Header /></div>
         <div className="col-start-3 col-span-8"><TransactionTable /></div>
-        <div className="col-start-3 col-span-8">Hello</div>
+        <div className="col-start-3 col-span-8"><TransactionStatistics /></div>
         <div className="col-start-3 col-span-8">Hello</div>
         <div className="col-start-3 col-span-8">Hello</div>
       </div>
